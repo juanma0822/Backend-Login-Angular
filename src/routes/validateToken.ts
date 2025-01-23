@@ -5,11 +5,14 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
     const headersToken = req.headers['authorization']
     console.log(headersToken);
 
-    if(headersToken != undefined){
-
-        const token = headersToken.slice(7)
-        jwt.verify(token, process.env.SECRET_KEY || 'JuanmaSoft')
-        next()
+    if(headersToken != undefined && headersToken.startsWith('Bearer ')){
+        try {
+            const token = headersToken.slice(7)
+            jwt.verify(token, process.env.SECRET_KEY || 'JuanmaSoft')
+            next()
+        } catch (error) {
+            res.status(401).json({msg: 'Token denied'})
+        }
     }else{
         res.status(401).json({msg: 'Acceso denied'})
     }

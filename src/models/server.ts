@@ -4,6 +4,8 @@ import RUser from '../routes/user';
 import RProduct from '../routes/product';
 import { User } from '../models/user';
 import { Product } from './product';
+import  cors  from 'cors';
+
 
 class Server{
 
@@ -33,6 +35,7 @@ class Server{
 
     midlewares(){
         this.app.use(express.json());
+        this.app.use(cors());
     }
 
     async DBconnect(){
